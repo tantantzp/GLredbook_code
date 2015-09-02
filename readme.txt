@@ -1,1 +1,1 @@
-Some codes from openGL redbook 8th edition, with some proper modification
+Some codes from openGL  redbook 8th edition, with some proper modification
