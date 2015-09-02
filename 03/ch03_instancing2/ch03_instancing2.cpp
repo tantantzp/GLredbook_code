@@ -46,75 +46,84 @@ void InstancingExample::Initialize(const char * title)
 
     base::Initialize(title);
 
-    // Create the program for rendering the model
-    render_prog = glCreateProgram();
+    //// Create the program for rendering the model
+    //render_prog = glCreateProgram();
 
-    // This is the rendering vertex shader
-    static const char render_vs[] =
-        "#version 330\n"
-        "\n"
-        "// 'position' and 'normal' are regular vertex attributes\n"
-        "layout (location = 0) in vec4 position;\n"
-        "layout (location = 1) in vec3 normal;\n"
-        "\n"
-        "// Color is a per-instance attribute\n"
-        "layout (location = 2) in vec4 color;\n"
-        "\n"
-        "// model_matrix will be used as a per-instance transformation\n"
-        "// matrix. Note that a mat4 consumes 4 consecutive locations, so\n"
-        "// this will actually sit in locations, 3, 4, 5, and 6.\n"
-        "layout (location = 3) in mat4 model_matrix;\n"
-        "\n"
-        "// The view matrix and the projection matrix are constant across a draw\n"
-        "uniform mat4 view_matrix;\n"
-        "uniform mat4 projection_matrix;\n"
-        "\n"
-        "// The output of the vertex shader (matched to the fragment shader)\n"
-        "out VERTEX\n"
-        "{\n"
-        "    vec3    normal;\n"
-        "    vec4    color;\n"
-        "} vertex;\n"
-        "\n"
-        "// Ok, go!\n"
-        "void main(void)\n"
-        "{\n"
-        "    // Construct a model-view matrix from the uniform view matrix\n"
-        "    // and the per-instance model matrix.\n"
-        "    mat4 model_view_matrix = view_matrix * model_matrix;\n"
-        "\n"
-        "    // Transform position by the model-view matrix, then by the\n"
-        "    // projection matrix.\n"
-        "    gl_Position = projection_matrix * (model_view_matrix * position);\n"
-        "    // Transform the normal by the upper-left-3x3-submatrix of the\n"
-        "    // model-view matrix\n"
-        "    vertex.normal = mat3(model_view_matrix) * normal;\n"
-        "    // Pass the per-instance color through to the fragment shader.\n"
-        "    vertex.color = color;\n"
-        "}\n";
+    //// This is the rendering vertex shader
+    //static const char render_vs[] =
+    //    "#version 330\n"
+    //    "\n"
+    //    "// 'position' and 'normal' are regular vertex attributes\n"
+    //    "layout (location = 0) in vec4 position;\n"
+    //    "layout (location = 1) in vec3 normal;\n"
+    //    "\n"
+    //    "// Color is a per-instance attribute\n"
+    //    "layout (location = 2) in vec4 color;\n"
+    //    "\n"
+    //    "// model_matrix will be used as a per-instance transformation\n"
+    //    "// matrix. Note that a mat4 consumes 4 consecutive locations, so\n"
+    //    "// this will actually sit in locations, 3, 4, 5, and 6.\n"
+    //    "layout (location = 3) in mat4 model_matrix;\n"
+    //    "\n"
+    //    "// The view matrix and the projection matrix are constant across a draw\n"
+    //    "uniform mat4 view_matrix;\n"
+    //    "uniform mat4 projection_matrix;\n"
+    //    "\n"
+    //    "// The output of the vertex shader (matched to the fragment shader)\n"
+    //    "out VERTEX\n"
+    //    "{\n"
+    //    "    vec3    normal;\n"
+    //    "    vec4    color;\n"
+    //    "} vertex;\n"
+    //    "\n"
+    //    "// Ok, go!\n"
+    //    "void main(void)\n"
+    //    "{\n"
+    //    "    // Construct a model-view matrix from the uniform view matrix\n"
+    //    "    // and the per-instance model matrix.\n"
+    //    "    mat4 model_view_matrix = view_matrix * model_matrix;\n"
+    //    "\n"
+    //    "    // Transform position by the model-view matrix, then by the\n"
+    //    "    // projection matrix.\n"
+    //    "    gl_Position = projection_matrix * (model_view_matrix * position);\n"
+    //    "    // Transform the normal by the upper-left-3x3-submatrix of the\n"
+    //    "    // model-view matrix\n"
+    //    "    vertex.normal = mat3(model_view_matrix) * normal;\n"
+    //    "    // Pass the per-instance color through to the fragment shader.\n"
+    //    "    vertex.color = color;\n"
+    //    "}\n";
 
-    // Simple fragment shader
-    static const char render_fs[] =
-        "#version 330\n"
-        "\n"
-        "layout (location = 0) out vec4 color;\n"
-        "\n"
-        "in VERTEX\n"
-        "{\n"
-        "    vec3    normal;\n"
-        "    vec4    color;\n"
-        "} vertex;\n"
-        "\n"
-        "void main(void)\n"
-        "{\n"
-        "    color = vertex.color * (0.1 + abs(vertex.normal.z)) + vec4(0.8, 0.9, 0.7, 1.0) * pow(abs(vertex.normal.z), 40.0);\n"
-        "}\n";
+    //// Simple fragment shader
+    //static const char render_fs[] =
+    //    "#version 330\n"
+    //    "\n"
+    //    "layout (location = 0) out vec4 color;\n"
+    //    "\n"
+    //    "in VERTEX\n"
+    //    "{\n"
+    //    "    vec3    normal;\n"
+    //    "    vec4    color;\n"
+    //    "} vertex;\n"
+    //    "\n"
+    //    "void main(void)\n"
+    //    "{\n"
+    //    "    color = vertex.color * (0.1 + abs(vertex.normal.z)) + vec4(0.8, 0.9, 0.7, 1.0) * pow(abs(vertex.normal.z), 40.0);\n"
+    //    "}\n";
+    //render_prog = LoadShaders(shader_info);
+    //// Compile and link like normal
+    //vglAttachShaderSource(render_prog, GL_VERTEX_SHADER, render_vs);
+    //vglAttachShaderSource(render_prog, GL_FRAGMENT_SHADER, render_fs);
 
-    // Compile and link like normal
-    vglAttachShaderSource(render_prog, GL_VERTEX_SHADER, render_vs);
-    vglAttachShaderSource(render_prog, GL_FRAGMENT_SHADER, render_fs);
+    //glLinkProgram(render_prog);
 
-    glLinkProgram(render_prog);
+	static ShaderInfo shader_info[] =
+    {
+        { GL_VERTEX_SHADER, "instancing2.vs.glsl", 0 },
+        { GL_FRAGMENT_SHADER, "instancing2.fs.glsl", 0 },
+        { GL_NONE, NULL, 0 }
+    };
+
+	render_prog = LoadShaders(shader_info);
     glUseProgram(render_prog);
 
     // Get the location of the projetion_matrix uniform
@@ -198,7 +207,7 @@ void InstancingExample::Initialize(const char * title)
         // Enable it
         glEnableVertexAttribArray(matrix_loc + i);
         // Make it instanced
-        glVertexAttribDivisor(matrix_loc + i, 1);
+       // glVertexAttribDivisor(matrix_loc + i, 1);
     }
 
     // Done (unbind the object's VAO)
