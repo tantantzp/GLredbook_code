@@ -131,7 +131,7 @@ void InstancingExample::Initialize(const char * title)
     projection_matrix_loc = glGetUniformLocation(render_prog, "projection_matrix");
 
     // Load the object
-    object.LoadFromVBM("F:/tzpRepository/opengl/oglpg-8th-edition/media/armadillo_low.vbm", 0, 1, 2);
+    object.LoadFromVBM("../../media/armadillo_low.vbm", 0, 1, 2);
 
     // Bind its vertex array object so that we can append the instanced attributes
     object.BindVertexArray();
@@ -207,7 +207,7 @@ void InstancingExample::Initialize(const char * title)
         // Enable it
         glEnableVertexAttribArray(matrix_loc + i);
         // Make it instanced
-       // glVertexAttribDivisor(matrix_loc + i, 1);
+        glVertexAttribDivisor(matrix_loc + i, 1);
     }
 
     // Done (unbind the object's VAO)
