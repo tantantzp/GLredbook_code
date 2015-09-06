@@ -148,7 +148,7 @@ void InstanceIDExample::Initialize(const char * title)
     glUniform1i(model_matrix_tbo_loc, 1);
 
     // Load the object
-    object.LoadFromVBM("C:/Vermilion-Book/trunk/Code/media/armadillo.vbm", 0, 1, 2);
+    object.LoadFromVBM("../../media/armadillo_low.vbm", 0, 1, 2);
 
     /*
 
@@ -239,10 +239,10 @@ void InstanceIDExample::Display(bool auto_redraw)
         float b = 50.0f * float(n) / 5.0f;
         float c = 50.0f * float(n) / 6.0f;
 
-        matrices[n] = rotation(a + t * 360.0f, 1.0f, 0.0f, 0.0f) *
-                      rotation(b + t * 360.0f, 0.0f, 1.0f, 0.0f) *
-                      rotation(c + t * 360.0f, 0.0f, 0.0f, 1.0f) *
-                      translation(10.0f + a, 40.0f + b, 50.0f + c);
+        matrices[n] = rotate(a + t * 360.0f, 1.0f, 0.0f, 0.0f) *
+                      rotate(b + t * 360.0f, 0.0f, 1.0f, 0.0f) *
+                      rotate(c + t * 360.0f, 0.0f, 0.0f, 1.0f) *
+                      translate(10.0f + a, 40.0f + b, 50.0f + c);
     }
 
     // Bind the weight VBO and change its data
@@ -261,7 +261,7 @@ void InstanceIDExample::Display(bool auto_redraw)
     glUseProgram(render_prog);
 
     // Set up the view and projection matrices
-    mat4 view_matrix(translation(0.0f, 0.0f, -1500.0f) * rotation(t * 360.0f * 2.0f, 0.0f, 1.0f, 0.0f));
+    mat4 view_matrix(translate(0.0f, 0.0f, -1500.0f) * rotate(t * 360.0f * 2.0f, 0.0f, 1.0f, 0.0f));
     mat4 projection_matrix(frustum(-1.0f, 1.0f, -aspect, aspect, 1.0f, 5000.0f));
 
     glUniformMatrix4fv(view_matrix_loc, 1, GL_FALSE, view_matrix);

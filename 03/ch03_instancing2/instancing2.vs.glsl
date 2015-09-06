@@ -28,7 +28,7 @@ void main(void)
 {
     // Construct a model-view matrix from the uniform view matrix
     // and the per-instance model matrix.
-    mat4 model_view_matrix = view_matrix * model_matrix;
+    mat4 model_view_matrix =  view_matrix *  model_matrix ;
 
     // Transform position by the model-view matrix, then by the
     // projection matrix.

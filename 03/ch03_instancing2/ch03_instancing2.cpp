@@ -168,6 +168,7 @@ void InstancingExample::Initialize(const char * title)
         float b = float(n) / 5.0f;
         float c = float(n) / 6.0f;
 
+
         colors[n][0] = 0.5f + 0.25f * (sinf(a + 1.0f) + 1.0f);
         colors[n][1] = 0.5f + 0.25f * (sinf(b + 2.0f) + 1.0f);
         colors[n][2] = 0.5f + 0.25f * (sinf(c + 3.0f) + 1.0f);
@@ -182,12 +183,13 @@ void InstancingExample::Initialize(const char * title)
     // to assume a different color, so we'll just pack colors into a buffer
     // object and make an instanced vertex attribute out of it.
     glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
-    glVertexAttribPointer(color_loc, 4, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer(color_loc, 4, GL_FLOAT, GL_FALSE, 0, (void *)(0));
     glEnableVertexAttribArray(color_loc);
     // This is the important bit... set the divisor for the color array to
     // 1 to get OpenGL to give us a new value of 'color' per-instance
     // rather than per-vertex.
-    glVertexAttribDivisor(color_loc, 1);
+   
+	glVertexAttribDivisor(color_loc, 1);
 
     // Likewise, we can do the same with the model matrix. Note that a
     // matrix input to the vertex shader consumes N consecutive input
@@ -247,10 +249,12 @@ void InstancingExample::Display(bool auto_redraw)
         float a = 50.0f * float(n) / 4.0f;
         float b = 50.0f * float(n) / 5.0f;
         float c = 50.0f * float(n) / 6.0f;
+		
 
-        matrices[n] = rotate(a + t * 360.0f, 1.0f, 0.0f, 0.0f) *
-                      rotate(b + t * 360.0f, 0.0f, 1.0f, 0.0f) *
-                      rotate(c + t * 360.0f, 0.0f, 0.0f, 1.0f) *
+        matrices[n] = rotate(a  + t * 360.0f, 1.0f, 0.0f, 0.0f) *
+                      rotate(b  + t * 360.0f, 0.0f, 1.0f, 0.0f) *
+					   rotate(c  + t * 360.0f, 0.0f, 0.0f, 1.0f) *
+                     // rotate(c + t * 360.0f, 0.0f, 0.0f, 1.0f) *
                       translate(10.0f + a, 40.0f + b, 50.0f + c);
     }
 
