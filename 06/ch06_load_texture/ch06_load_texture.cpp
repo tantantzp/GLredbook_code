@@ -5,16 +5,16 @@
    $Id$
  */
 
-#define USE_GL3W
+//#define USE_GL3W
 #include <vermilion.h>
 
 #include "vapp.h"
 #include "vutils.h"
 #include "vbm.h"
-
 #include "vmath.h"
-
 #include <stdio.h>
+
+
 
 BEGIN_APP_DECLARATION(LoadTextureExample)
     // Override functions from base class
@@ -73,16 +73,15 @@ void LoadTextureExample::Initialize(const char * title)
 
     vglAttachShaderSource(base_prog, GL_VERTEX_SHADER, quad_shader_vs);
     vglAttachShaderSource(base_prog, GL_FRAGMENT_SHADER, quad_shader_fs);
-
-    glGenBuffers(1, &quad_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, quad_vbo);
+	glLinkProgram(base_prog);
+	glUseProgram(base_prog);
 
     static const GLfloat quad_data[] =
     {
-         1.0f, -1.0f,
-        -1.0f, -1.0f,
-        -1.0f, 1.0f,
-         1.0f, 1.0f,
+         0.75f, -0.75f,
+        -0.75f, -0.75f,
+        -0.75f, 0.75f,
+         0.75f, 0.75f,
 
          0.0f, 0.0f,
          1.0f, 0.0f,
@@ -90,26 +89,24 @@ void LoadTextureExample::Initialize(const char * title)
          0.0f, 1.0f
     };
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(quad_data), quad_data, GL_STATIC_DRAW);
-
-    glGenVertexArrays(1, &vao);
+	glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+    glGenBuffers(1, &quad_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, quad_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(quad_data), quad_data, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(8 * sizeof(float)));
-
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glLinkProgram(base_prog);
-
-    char buf[1024];
-    glGetProgramInfoLog(base_prog, 1024, NULL, buf);
-
     vglImageData image;
 
-    tex = vglLoadTexture("d:/svn/Vermilion-Book/trunk/Code/media/test.dds", 0, &image);
+	glUniform1i(glGetUniformLocation(base_prog, "tex"), 0);
 
+	glActiveTexture(GL_TEXTURE0);
+    tex = vglLoadTexture("F:/tzpRepository/opengl/oglpg-8th-edition/media/test.dds", 0, &image);
+    glBindTexture(image.target, tex);
     glTexParameteri(image.target, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
     vglUnloadImage(&image);
@@ -117,20 +114,12 @@ void LoadTextureExample::Initialize(const char * title)
 
 void LoadTextureExample::Display(bool auto_redraw)
 {
-    float t = float(GetTickCount() & 0x3FFF) / float(0x3FFF);
-    static const vmath::vec3 X(1.0f, 0.0f, 0.0f);
-    static const vmath::vec3 Y(0.0f, 1.0f, 0.0f);
-    static const vmath::vec3 Z(0.0f, 0.0f, 1.0f);
 
-    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-    glClearDepth(1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-    glDisable(GL_CULL_FACE);
     glUseProgram(base_prog);
 
     glBindVertexArray(vao);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
+	//glDrawArrays(GL_QUADS, 0, 4);
 
     base::Display();
 }

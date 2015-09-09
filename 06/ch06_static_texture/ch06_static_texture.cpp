@@ -5,7 +5,7 @@
    $Id$
  */
 
-#define USE_GL3W
+//#define USE_GL3W
 #include <vermilion.h>
 
 #include "vapp.h"
@@ -23,7 +23,7 @@ BEGIN_APP_DECLARATION(LoadTextureExample)
     virtual void Finalize(void);
     virtual void Reshape(int width, int height);
 
-    // Member variables
+    // Member variables56
     float aspect;
     GLuint base_prog;
     GLuint vao;
@@ -74,8 +74,12 @@ void LoadTextureExample::Initialize(const char * title)
     vglAttachShaderSource(base_prog, GL_VERTEX_SHADER, quad_shader_vs);
     vglAttachShaderSource(base_prog, GL_FRAGMENT_SHADER, quad_shader_fs);
 
-    glGenBuffers(1, &quad_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, quad_vbo);
+	glLinkProgram(base_prog);
+    glUseProgram(base_prog);
+
+
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
     static const GLfloat quad_data[] =
     {
@@ -89,11 +93,9 @@ void LoadTextureExample::Initialize(const char * title)
          1.0f, 1.0f,
          0.0f, 1.0f
     };
-
+    glGenBuffers(1, &quad_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, quad_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(quad_data), quad_data, GL_STATIC_DRAW);
-
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(8 * sizeof(float)));
@@ -101,7 +103,6 @@ void LoadTextureExample::Initialize(const char * title)
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glLinkProgram(base_prog);
 
     glGenTextures(1, &tex);
     glBindTexture(GL_TEXTURE_2D, tex);
