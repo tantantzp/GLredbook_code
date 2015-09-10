@@ -77,8 +77,10 @@ void VolumeTextureExample::Initialize(const char * title)
     vglAttachShaderSource(base_prog, GL_VERTEX_SHADER, quad_shader_vs);
     vglAttachShaderSource(base_prog, GL_FRAGMENT_SHADER, quad_shader_fs);
 
-    glGenBuffers(1, &quad_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, quad_vbo);
+    glLinkProgram(base_prog);
+
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
 
     static const GLfloat quad_data[] =
     {
@@ -93,10 +95,9 @@ void VolumeTextureExample::Initialize(const char * title)
          0.0f, 1.0f
     };
 
+    glGenBuffers(1, &quad_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, quad_vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(quad_data), quad_data, GL_STATIC_DRAW);
-
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(8 * sizeof(float)));
@@ -104,10 +105,6 @@ void VolumeTextureExample::Initialize(const char * title)
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    glLinkProgram(base_prog);
-
-    char buf[1024];
-    glGetProgramInfoLog(base_prog, 1024, NULL, buf);
 
     tc_rotate_loc = glGetUniformLocation(base_prog, "tc_rotate");
 
@@ -126,13 +123,9 @@ void VolumeTextureExample::Display(bool auto_redraw)
     float t = float((GetTickCount() - start_time)) / float(0x3FFF);
     static const vmath::vec3 X(1.0f, 0.0f, 0.0f);
     static const vmath::vec3 Y(0.0f, 1.0f, 0.0f);
-    static const vmath::vec3 Z(0.0f, 0.0f, 1.0f);
+    static const                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  vmath::vec3 Z(0.0f, 0.0f, 1.0f);
 
     vmath::mat4 tc_matrix(vmath::mat4::identity());
-
-    glClearColor(0.0f, 1.0f, 0.0f, 1.0f);
-    glClearDepth(1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glDisable(GL_CULL_FACE);
     glUseProgram(base_prog);

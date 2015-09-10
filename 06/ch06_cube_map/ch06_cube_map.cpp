@@ -129,8 +129,6 @@ void CubeMapExample::Initialize(const char * title)
 
     glLinkProgram(object_prog);
 
-    glGenBuffers(1, &cube_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, cube_vbo);
 
     static const GLfloat cube_vertices[] =
     {
@@ -150,10 +148,12 @@ void CubeMapExample::Initialize(const char * title)
         2, 6, 0, 4, 1, 5, 3, 7          // Second strip
     };
 
-    glBufferData(GL_ARRAY_BUFFER, sizeof(cube_vertices), cube_vertices, GL_STATIC_DRAW);
-
-    glGenVertexArrays(1, &vao);
+	glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
+
+    glGenBuffers(1, &cube_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, cube_vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube_vertices), cube_vertices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, BUFFER_OFFSET(0));
     glEnableVertexAttribArray(0);
@@ -168,7 +168,7 @@ void CubeMapExample::Initialize(const char * title)
 
     vglImageData image;
 
-    tex = vglLoadTexture("C:/Temp/cubemaps/Tantolunden4/TantolundenCube.dds", 0, &image);
+    tex = vglLoadTexture("F:/tzpRepository/opengl/oglpg-8th-edition/media/TantolundenCube.dds", 0, &image);
 
     GLenum e;
 
@@ -176,7 +176,7 @@ void CubeMapExample::Initialize(const char * title)
 
     vglUnloadImage(&image);
 
-    object.LoadFromVBM("C:/Vermilion-Book/trunk/Code/media/unit_torus.vbm", 0, 1, 2);
+    object.LoadFromVBM("F:/tzpRepository/opengl/oglpg-8th-edition/media/unit_torus.vbm", 0, 1, 2);
 }
 
 void CubeMapExample::Display(bool auto_redraw)
@@ -188,10 +188,6 @@ void CubeMapExample::Display(bool auto_redraw)
     static const vmath::vec3 Z(0.0f, 0.0f, 1.0f);
 
     vmath::mat4 tc_matrix(vmath::mat4::identity());
-
-    glClearColor(0.0f, 0.25f, 0.3f, 1.0f);
-    glClearDepth(1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
