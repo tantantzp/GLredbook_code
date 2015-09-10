@@ -5,7 +5,7 @@
    $Id$
  */
 
-#define USE_GL3W
+//#define USE_GL3W
 #include <vermilion.h>
 
 #include "vapp.h"
@@ -82,10 +82,10 @@ void VolumeTextureExample::Initialize(const char * title)
 
     static const GLfloat quad_data[] =
     {
-         1.0f, -1.0f,
-        -1.0f, -1.0f,
-        -1.0f, 1.0f,
-         1.0f, 1.0f,
+         0.75f, -0.75f,
+        -0.75f, -0.75f,
+        -0.75f, 0.75f,
+         0.75f, 0.75f,
 
          0.0f, 0.0f,
          1.0f, 0.0f,
@@ -113,7 +113,7 @@ void VolumeTextureExample::Initialize(const char * title)
 
     vglImageData image;
 
-    tex = vglLoadTexture("d:/temp/cloud.dds", 0, &image);
+    tex = vglLoadTexture("F:/tzpRepository/opengl/oglpg-8th-edition/media/cloud.dds", 0, &image);
 
     glTexParameteri(image.target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
