@@ -1,4 +1,4 @@
-﻿生成启动时间为 2015/9/10 16:33:56。
+﻿生成启动时间为 2015/9/10 16:36:33。
      1>项目“F:\tzpRepository\opengl\oglpg-8th-edition\06\ch06_volume_texture\ch06_volume_texture.vcxproj”在节点 2 上(build 个目标)。
      1>InitializeBuildStatus:
          正在创建“Debug\ch06_volume_texture.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
@@ -19,4 +19,4 @@
 
 生成成功。
 
-已用时间 00:00:00.61
+已用时间 00:00:00.62

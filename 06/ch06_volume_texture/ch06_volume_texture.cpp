@@ -82,10 +82,10 @@ void VolumeTextureExample::Initialize(const char * title)
 
     static const GLfloat quad_data[] =
     {
-         0.75f, -0.75f,
-        -0.75f, -0.75f,
-        -0.75f, 0.75f,
-         0.75f, 0.75f,
+         1.0f, -1.0f,
+        -1.0f, -1.0f,
+        -1.0f, 1.0f,
+         1.0f, 1.0f,
 
          0.0f, 0.0f,
          1.0f, 0.0f,
