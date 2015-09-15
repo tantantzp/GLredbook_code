@@ -10,6 +10,7 @@
 #include "vbm.h"
 
 #include "vmath.h"
+#include "LoadShaders.h"
 
 #include <stdio.h>
 
@@ -39,152 +40,27 @@ void FurApplication::Initialize(const char * title)
 {
     base::Initialize(title);
 
-    base_prog = glCreateProgram();
-
-    static const char base_vs_source[] =
-        "#version 410\n"
-        "\n"
-        "layout (location = 0) in vec4 position_in;\n"
-        "layout (location = 1) in vec3 normal_in;\n"
-        "layout (location = 2) in vec2 texcoord_in;\n"
-        "\n"
-        "uniform mat4 model_matrix;\n"
-        "uniform mat4 projection_matrix;\n"
-        "\n"
-        "out VS_FS_VERTEX\n"
-        "{\n"
-        "    vec3 normal;\n"
-        "} vertex_out;\n"
-        "\n"
-        "void main(void)\n"
-        "{\n"
-        "    vertex_out.normal = normal_in;\n"
-        "    gl_Position = projection_matrix * (model_matrix * position_in);\n"
-        "}\n";
-
-    static const char base_fs_source[] =
-        "#version 410\n"
-        "\n"
-        "layout (location = 0) out vec4 color;\n"
-        "\n"
-        "in VS_FS_VERTEX\n"
-        "{\n"
-        "    vec3 normal;\n"
-        "} vertex_in;\n"
-        "\n"
-        "void main(void)\n"
-        "{\n"
-        "    vec3 normal = vertex_in.normal;\n"
-        "    color = vec4(0.2, 0.1, 0.5, 1.0) * (0.2 + pow(abs(normal.z), 4.0)) + vec4(0.8, 0.8, 0.8, 0.0) * pow(abs(normal.z), 137.0);\n"
-        "}\n";
-
-    vglAttachShaderSource(base_prog, GL_VERTEX_SHADER, base_vs_source);
-    vglAttachShaderSource(base_prog, GL_FRAGMENT_SHADER, base_fs_source);
-
-    glLinkProgram(base_prog);
+	static ShaderInfo shader_info[] =
+    {
+        { GL_VERTEX_SHADER, "base_vs.glsl" },
+        { GL_FRAGMENT_SHADER, "base_fs.glsl" },
+        { GL_NONE, NULL }
+    };
+    base_prog =  LoadShaders(shader_info);
     glUseProgram(base_prog);
 
     base_model_matrix_pos = glGetUniformLocation(base_prog, "model_matrix");
     base_projection_matrix_pos = glGetUniformLocation(base_prog, "projection_matrix");
 
-    fur_prog = glCreateProgram();
 
-    static const char fur_vs_source[] =
-        "#version 410\n"
-        "\n"
-        "layout (location = 0) in vec4 position_in;\n"
-        "layout (location = 1) in vec3 normal_in;\n"
-        "layout (location = 2) in vec2 texcoord_in;\n"
-        "\n"
-        "out VS_GS_VERTEX\n"
-        "{\n"
-        "    vec3 normal;\n"
-        "    vec2 tex_coord;\n"
-        "} vertex_out;\n"
-        "\n"
-        "void main(void)\n"
-        "{\n"
-        "    vertex_out.normal = normal_in;\n"
-        "    vertex_out.tex_coord = texcoord_in;\n"
-        "    gl_Position = position_in;\n"
-        "}\n";
-
-    static const char fur_gs_source[] =
-        "#version 410\n"
-        "\n"
-        "layout (triangles) in;\n"
-        "layout (triangle_strip, max_vertices = 240) out;\n"
-        "\n"
-        "uniform mat4 model_matrix;\n"
-        "uniform mat4 projection_matrix;\n"
-        "\n"
-        "uniform int fur_layers = 30;\n"
-        "uniform float fur_depth = 5.0;\n"
-        "\n"
-        "in VS_GS_VERTEX\n"
-        "{\n"
-        "    vec3 normal;\n"
-        "    vec2 tex_coord;\n"
-        "} vertex_in[];\n"
-        "\n"
-        "out GS_FS_VERTEX\n"
-        "{\n"
-        "    vec3 normal;\n"
-        "    vec2 tex_coord;\n"
-        "    flat float fur_strength;\n"
-        "} vertex_out;\n"
-        "\n"
-        "void main(void)\n"
-        "{\n"
-        "    int i, layer;\n"
-        "    float disp_delta = 1.0 / float(fur_layers);\n"
-        "    float d = 0.0;\n"
-        "    vec4 position;\n"
-        "\n"
-        "    for (layer = 0; layer < fur_layers; layer++)\n"
-        "    {\n"
-        "        for (i = 0; i < gl_in.length(); i++) {\n"
-        "            vec3 n = vertex_in[i].normal;\n"
-        "            vertex_out.normal = n;\n"
-        "            vertex_out.tex_coord = vertex_in[i].tex_coord;\n"
-        "            vertex_out.fur_strength = 1.0 - d;\n"
-        "            position = gl_in[i].gl_Position + vec4(n * d * fur_depth, 0.0);\n"
-        "            gl_Position = projection_matrix * (model_matrix * position);\n"
-        "            EmitVertex();\n"
-        "        }\n"
-        "        d += disp_delta;\n"
-        "        EndPrimitive();\n"
-        "    }\n"
-        "}\n";
-
-    static const char fur_fs_source[] =
-        "#version 410\n"
-        "\n"
-        "layout (location = 0) out vec4 color;\n"
-        "\n"
-        "uniform sampler2D fur_texture;\n"
-        "uniform vec4 fur_color = vec4(0.8, 0.8, 0.9, 1.0);\n"
-        "\n"
-        "in GS_FS_VERTEX\n"
-        "{\n"
-        "    vec3 normal;\n"
-        "    vec2 tex_coord;\n"
-        "    flat float fur_strength;\n"
-        "} fragment_in;\n"
-        "\n"
-        "void main(void)\n"
-        "{\n"
-        "    vec4 rgba = texture(fur_texture, fragment_in.tex_coord);\n"
-        "    float t = rgba.a;\n"
-        "    t *= fragment_in.fur_strength;\n"
-        "    color = fur_color * vec4(1.0, 1.0, 1.0, t);\n"
-        "}\n";
-
-    vglAttachShaderSource(fur_prog, GL_VERTEX_SHADER, fur_vs_source);
-    vglAttachShaderSource(fur_prog, GL_GEOMETRY_SHADER, fur_gs_source);
-    vglAttachShaderSource(fur_prog, GL_FRAGMENT_SHADER, fur_fs_source);
-
-    glLinkProgram(fur_prog);
+	static ShaderInfo shader_info2[] =
+    {
+        { GL_VERTEX_SHADER, "fur_vs.glsl" },
+        { GL_GEOMETRY_SHADER, "fur_gs.glsl" },
+		{ GL_FRAGMENT_SHADER, "fur_fs.glsl" },
+        { GL_NONE, NULL }
+    };
+    fur_prog =  LoadShaders(shader_info2);
     glUseProgram(fur_prog);
 
     fur_model_matrix_pos = glGetUniformLocation(fur_prog, "model_matrix");

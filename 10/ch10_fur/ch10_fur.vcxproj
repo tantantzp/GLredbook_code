@@ -61,6 +61,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\lib</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>libcmtd.lib</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,11 +82,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\lib\LoadShaders.cpp" />
     <ClCompile Include="ch10_fur.cpp" />
     <ClCompile Include="vbm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="vbm.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="base_fs.glsl" />
+    <None Include="base_vs.glsl" />
+    <None Include="fur_fs.glsl" />
+    <None Include="fur_gs.glsl" />
+    <None Include="fur_vs.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
