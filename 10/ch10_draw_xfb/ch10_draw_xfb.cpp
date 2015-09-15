@@ -180,7 +180,7 @@ void ViewportArrayApplication::Initialize(const char * title)
 
     glLinkProgram(render_prog);
 
-    object.LoadFromVBM("D:/svn/Vermilion-Book/trunk/Code/media/ninja.vbm", 0, 1, 2);
+    object.LoadFromVBM("F:/tzpRepository/opengl/oglpg-8th-edition/media/ninja.vbm", 0, 1, 2);
 }
 
 void ViewportArrayApplication::Display(bool auto_redraw)

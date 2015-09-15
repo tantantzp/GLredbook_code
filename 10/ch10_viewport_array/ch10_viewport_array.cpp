@@ -111,7 +111,7 @@ void ViewportArrayApplication::Initialize(const char * title)
     model_matrix_pos = glGetUniformLocation(prog, "model_matrix");
     projection_matrix_pos = glGetUniformLocation(prog, "projection_matrix");
 
-    object.LoadFromVBM("C:/Vermilion-Book/trunk/Code/media/ninja.vbm", 0, 1, 2);
+    object.LoadFromVBM("F:/tzpRepository/opengl/oglpg-8th-edition/media/ninja.vbm", 0, 1, 2);
 }
 
 void ViewportArrayApplication::Display(bool auto_redraw)
