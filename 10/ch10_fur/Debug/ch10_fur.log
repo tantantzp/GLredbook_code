@@ -1,0 +1,21 @@
+﻿生成启动时间为 2015/9/15 11:44:01。
+     1>项目“F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\ch10_fur.vcxproj”在节点 2 上(build 个目标)。
+     1>InitializeBuildStatus:
+         正在创建“Debug\ch10_fur.unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+       ClCompile:
+         D:\VS2010\VC\bin\CL.exe /c /I..\..\include /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt ch10_fur.cpp
+         ch10_fur.cpp
+       Link:
+         D:\VS2010\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\Debug\ch10_fur.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\..\lib qtmaind.lib QtCore4.lib QtGui4.lib opencv_calib3d249.lib opencv_contrib249.lib opencv_core249.lib opencv_features2d249.lib opencv_flann249.lib opencv_gpu249.lib opencv_highgui249.lib opencv_imgproc249.lib opencv_legacy249.lib opencv_ml249.lib opencv_objdetect249.lib opencv_ts249.lib opencv_video249.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\ch10_fur.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\Debug\ch10_fur.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\Debug\ch10_fur.lib" /MACHINE:X86 Debug\ch10_fur.obj
+         Debug\vbm.obj
+         ch10_fur.vcxproj -> F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\Debug\ch10_fur.exe
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\Debug\ch10_fur.exe.manifest" /manifest Debug\ch10_fur.exe.intermediate.manifest
+       FinalizeBuildStatus:
+         正在删除文件“Debug\ch10_fur.unsuccessfulbuild”。
+         正在对“Debug\ch10_fur.lastbuildstate”执行 Touch 任务。
+     1>已完成生成项目“F:\tzpRepository\opengl\oglpg-8th-edition\10\ch10_fur\ch10_fur.vcxproj”(build 个目标)的操作。
+
+生成成功。
+
+已用时间 00:00:00.57

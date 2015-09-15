@@ -215,7 +215,8 @@ void FurApplication::Initialize(const char * title)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     free(tex);
 
-    object.LoadFromVBM("C:/Vermilion-Book/trunk/Code/media/ninja.vbm", 0, 1, 2);
+	//object.LoadFromVBM("F:/tzpRepository/opengl/oglpg-8th-edition/media/unit_cube.vbm", 0, 1, 2);
+    object.LoadFromVBM("F:/tzpRepository/opengl/oglpg-8th-edition/media/ninja.vbm", 0, 1, 2);
 }
 
 void FurApplication::Display(bool auto_redraw)
@@ -234,7 +235,7 @@ void FurApplication::Display(bool auto_redraw)
 
     m = vmath::mat4(vmath::translate(0.0f,
                                        0.0f,
-                                       /* 100.0f * sinf(6.28318531f * t)*/ - 130.0f) *
+                                         /* 100.0f * sinf(6.28318531f * t)*/ - 150.0f) *
                     //vmath::rotation(360.0f * t, X) *
                     vmath::rotate(360.0f * t * 1.0f, Y) *
                     vmath::rotate(180.0f, Z) *
