@@ -78,9 +78,9 @@ void FurApplication::Initialize(const char * title)
         {
             int x = rand() & 0x3FF;
             int y = rand() & 0x3FF;
-            tex[(y * 1024 + x) * 4 + 0] = (rand() & 0x3F) + 0xC0;
-            tex[(y * 1024 + x) * 4 + 1] = (rand() & 0x3F) + 0xC0;
-            tex[(y * 1024 + x) * 4 + 2] = (rand() & 0x3F) + 0xC0;
+            tex[(y * 1024 + x) * 4 + 0] = n;//(rand() & 0x3F) + 0xC0;
+            tex[(y * 1024 + x) * 4 + 1] = n;//(rand() & 0x3F) + 0xC0;
+            tex[(y * 1024 + x) * 4 + 2] = n;//(rand() & 0x3F) + 0xC0;
             tex[(y * 1024 + x) * 4 + 3] = n;
         }
     }
@@ -128,6 +128,7 @@ void FurApplication::Display(bool auto_redraw)
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
+
     object.Render();
 
     glUseProgram(fur_prog);
@@ -138,6 +139,8 @@ void FurApplication::Display(bool auto_redraw)
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	//glDisable(GL_DEPTH_TEST);
+  
     glDepthMask(GL_FALSE);
 
     object.Render();
